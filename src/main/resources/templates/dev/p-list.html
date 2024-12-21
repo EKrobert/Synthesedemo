@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:if="${user.role == 0}">
+
+<head th:replace="~{master/head:: head}"></head>
+
+<body>
+<!-- Inclusion du header -->
+<div th:replace="~{master/header:: header}"></div>
+
+<!-- Inclusion de la sidebar -->
+<div th:replace="~{master/sidebar:: sidebar}"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Projet</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Liste des projet</h5>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Titre</th>
+                        <th scope="col" class="text-center">Chef de projet</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${projets}">
+                        <td class="text-center" th:text="${p.titre}"></td>
+                        <td class="text-center" th:text="${p.createdBy.name} + ' ' + ${p.createdBy.prenom}"></td>
+                        <td class="text-center"> </td>
+                        <td class="text-center">
+                            <a  class="btn btn-primary btn-sm">Détails</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <!-- End Table with hoverable rows -->
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.min.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+
+</body>
+
+</html>

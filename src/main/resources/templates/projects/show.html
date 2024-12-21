@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head th:replace="~{master/head:: head}"></head>
+
+<body>
+<!-- Inclusion du header -->
+<div th:replace="~{master/header:: header}"></div>
+
+<!-- Inclusion de la sidebar -->
+<div th:replace="~{master/sidebar:: sidebar}"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Projet</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${projet.getTitre()}"> </h5>
+
+                <!-- Pills Tabs -->
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Description</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Compétences</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Developpeur</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-2" id="myTabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab" th:text="${projet.getDescription()}"></div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <h5>Compétences associées :</h5>
+                        <ul>
+                            <li th:each="competence : ${projet.getCompetences()}" th:text="${competence.getCompetence()}">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <h5>Développeurs affectés :</h5>
+                        <ul>
+                            <li th:each="us : ${projet.getUsers()}">
+                                <p>Nom : <span th:text="${us.getName()}"></span></p>
+                                <p>Email : <span th:text="${us.getEmail()}"></span></p>
+                                <p>Compétences :</p>
+                                <ul>
+                                    <li th:each="competence : ${us.getCompetences()}" th:text="${competence.competence}"></li>
+                                </ul>
+
+                                <!-- Formulaire d'évaluation -->
+                                <form th:action="@{/evaluation/save}" method="post" th:if="${user.role == 1}">
+                                    <input type="hidden" name="userId" th:value="${us.getId()}"/>
+                                    <input type="hidden" name="projectId" th:value="${projet.getId()}"/>
+
+                                    <div class="row mb-3">
+                                        <label for="score" class="col-md-4 col-lg-3 col-form-label">Score</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="number" id="score" name="score" min="1" max="5" required >
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="texte">texte :</label>
+                                        <textarea id="texte" name="texte" rows="3" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Évaluer</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div><!-- End Pills Tabs -->
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.min.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+
+</body>
+
+</html>

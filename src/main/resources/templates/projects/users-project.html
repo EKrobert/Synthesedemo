@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{master/head:: head}"></head>
+
+<body>
+<!-- Inclusion du header -->
+<div th:replace="~{master/header:: header}"></div>
+
+<!-- Inclusion de la sidebar -->
+<div th:replace="~{master/sidebar:: sidebar}"></div>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Affectation des développeurs</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="card">
+      <div th:if="${success}" class="alert alert-success" role="alert">
+        <span th:text="${success}"></span>
+      </div>
+
+      <!-- Afficher le message d'erreur -->
+      <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">affectation</h5>
+        <!-- Sélection du Projet -->
+        <form action="/projects/affected" method="post" >
+
+          <div class="col-12">
+            <label for="projetId" class="form-label">Sélectionnez un Projet :</label>
+            <select id="projetId" name="projetId" class="form-select">
+              <option th:each="projet : ${projects}"
+                      th:value="${projet.id}"
+                      th:text="${projet.titre}"></option>
+            </select>
+          </div>
+
+          <br>
+
+          <div class="col-12">
+            <label for="dev" class="form-label">Selectionnez les developpeurs</label> <br>
+            <select id="dev" class="form-control dev" name="dev[]" multiple="multiple">
+              <option th:each="user : ${users}"
+                      th:value="${user.getId()}"
+                      th:text="${user.name} + ' ' + ${user.prenom}"></option>
+
+            </select>
+          </div>
+
+          <div class="mb-3">
+
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+
+
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.min.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#dev').select2({
+      placeholder: 'Sélectionnez les developpeurs',
+      allowClear: true,
+      width: '100%'
+    });
+  });
+</script>
+</body>
+
+</html>
