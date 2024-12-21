@@ -3,9 +3,11 @@ package ma.ac.uir.synthesedemo.controller;
 import jakarta.servlet.http.HttpSession;
 import ma.ac.uir.synthesedemo.dao.UsersRepository;
 import ma.ac.uir.synthesedemo.entity.Competences;
+import ma.ac.uir.synthesedemo.entity.Evaluation;
 import ma.ac.uir.synthesedemo.entity.Projets;
 import ma.ac.uir.synthesedemo.entity.Users;
 import ma.ac.uir.synthesedemo.service.CompetenceService;
+import ma.ac.uir.synthesedemo.service.EvaluationService;
 import ma.ac.uir.synthesedemo.service.ProjetService;
 import ma.ac.uir.synthesedemo.service.UserService;
 import ma.ac.uir.synthesedemo.utils.SessionUtils;
@@ -24,6 +26,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
+
+    @Autowired
+    private EvaluationService evaluationService;
 
     @ModelAttribute("loggedInUser")
     public Users addLoggedInUserToModel(HttpSession session) {
@@ -113,13 +118,17 @@ public class ProjectController {
 
     @GetMapping("/show")
     public String show(@ModelAttribute("loggedInUser") Users loggedInUser,
-                       @RequestParam("projetId") int projetId, Model model) {
+                       @RequestParam("projetId") Long projetId, Model model) {
         if (loggedInUser == null) {
             return "redirect:/login";
         }
-        model.addAttribute("user", loggedInUser);
+        List <Evaluation> evaluations;
         Projets projet = projetService.findById(projetId);
+        evaluations = evaluationService.findEvaluationsByProjectId(projetId);
+        model.addAttribute("user", loggedInUser);
         model.addAttribute("projet", projet);
+        model.addAttribute("evaluations", evaluations);
+
         return "projects/show";
     }
 
@@ -149,7 +158,7 @@ public class ProjectController {
 
     @PostMapping("/affected")
     public String saveAffectation(@ModelAttribute("loggedInUser") Users loggedInUser,
-                                  @RequestParam("projetId") Integer projetId,
+                                  @RequestParam("projetId") Long projetId,
                                   @RequestParam("dev[]") List<Long> devIds,
                                   Model model) {
         if (loggedInUser == null) {

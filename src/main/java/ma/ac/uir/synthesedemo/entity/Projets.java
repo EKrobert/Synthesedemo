@@ -9,7 +9,7 @@ import java.util.Set;
 public class Projets {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @Column(name = "title")
     private String titre;
     @Column(name = "description")
@@ -51,10 +51,10 @@ public class Projets {
         this.titre = titre;
         this.description = description;
     }
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getTitre() {

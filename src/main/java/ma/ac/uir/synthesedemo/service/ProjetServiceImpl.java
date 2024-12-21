@@ -26,13 +26,13 @@ public class ProjetServiceImpl implements ProjetService {
     @Override
     public List<Projets> findAllById(Long id) {
         // Utiliser le repository pour récupérer les projets
-        List<Projets> projets = projetRepository.findAllById(Collections.singletonList(Math.toIntExact(id)));
+        List<Projets> projets = projetRepository.findAllById(Collections.singletonList((long) Math.toIntExact(id)));
         return projets;
     }
 
 
     @Override
-    public Projets findById(Integer theId) {
+    public Projets findById(Long theId) {
 
         Optional <Projets> result = projetRepository.findById(theId);
 
@@ -58,7 +58,7 @@ public class ProjetServiceImpl implements ProjetService {
     }
 
     @Override
-    public void deleteById(int theId) {
+    public void deleteById(Long theId) {
         projetRepository.deleteById(theId);
     }
 

@@ -25,24 +25,12 @@ public class AuthController {
         this.userService = userService;
     }
 
-
-    @GetMapping("/login")
-    public String login() {
-        return "login"; // Retourne la vue personnalisée pour le login
-    }
-
-    @GetMapping("/register")
-    public String registerForm(Model model) {
-        model.addAttribute("user", new Users());
-        return "register"; // Retourne la vue pour l'inscription
-    }
-
     @PostMapping("/save")
     public String register(@ModelAttribute("user") Users user, BindingResult bindingResult, Model model) {
         // Vérifier si l'email existe déjà
         if (userService.findByEMail(user.getEmail()) != null) {
             model.addAttribute("error", "Cet email est déjà utilisé.");
-            return "redirect:/auth/register"; // Redirige vers la page d'inscription avec un message d'erreur
+            return "redirect:/register"; // Redirige vers la page d'inscription avec un message d'erreur
         }
 
         // Vérification des erreurs de validation
@@ -56,7 +44,7 @@ public class AuthController {
         user.setPassword(encodedPassword);
         userService.save(user);
 
-        return "redirect:/auth/login"; // Redirige vers la page de login après l'inscription
+        return "redirect:/login"; // Redirige vers la page de login après l'inscription
     }
 
 
@@ -73,7 +61,6 @@ public class AuthController {
 
         // Initialiser la session avec l'utilisateur connecté
         SessionUtils.setLoggedInUser(session, us);
-        //System.out.println(us);
         return "redirect:/home";
     }
 

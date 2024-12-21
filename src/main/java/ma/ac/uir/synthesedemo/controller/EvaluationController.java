@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @Controller
 public class EvaluationController {
     private final UsersRepository usersRepository;
@@ -26,24 +28,31 @@ public class EvaluationController {
 
     @PostMapping("/evaluation/save")
     public String saveEvaluation(@RequestParam("userId") Long userId,
-                                 @RequestParam("projectId") Integer projectId,
+                                 @RequestParam("projectId") Long projectId,
                                  @RequestParam("score") int score,
                                  @RequestParam("texte") String texte) {
         // Récupérer l'utilisateur et le projet
         Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
         Projets project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Projet introuvable"));
 
-        // Créer une nouvelle évaluation
+        // Vérifier si une évaluation existe déjà pour cet utilisateur et ce projet
+        Evaluation existingEvaluation = evaluationRepository.findByUserIdAndProjectId(user.getId(), project.getId());
+
         Evaluation evaluation = new Evaluation();
-        evaluation.setUser(user);
-        evaluation.setProject(project);
-        evaluation.setScore(score);
-        evaluation.setTexte(texte);
+        if (existingEvaluation != null) {
+            // Mise à jour de l'évaluation existante
+            existingEvaluation.setScore(score);
+            existingEvaluation.setTexte(texte);
+            evaluationRepository.save(existingEvaluation);
+        } else {
+            evaluation.setUser(user);
+            evaluation.setProject(project);
+            evaluation.setScore(score);
+            evaluation.setTexte(texte);
+            evaluationRepository.save(evaluation);
+        }
 
-        // Sauvegarder l'évaluation
-        evaluationRepository.save(evaluation);
-
-        return "redirect:/projects/show?projetId=" + projectId;  // Redirige vers la page du projet
+        return "redirect:/projects/show?projetId=" + projectId;
     }
 
 }

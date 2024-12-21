@@ -9,11 +9,11 @@ public interface ProjetService {
     List<Projets> findAll();
     List<Projets> findAllById(Long id);
 
-    Projets findById(Integer theId);
+    Projets findById(Long theId);
 
     Projets save(Projets projets);
 
     Projets update(Projets projets);
 
-    void deleteById(int theId);
+    void deleteById(Long theId);
 }

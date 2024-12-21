@@ -56,6 +56,14 @@
                                 </div>
 
                                 <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Disponibilité</div>
+                                        <div class="col-lg-9 col-md-8">
+                                             <span th:classappend="${userDetails.disponible ? 'badge bg-success text-light' : 'badge bg-danger text-light'}"
+                                             th:text="${userDetails.disponible ? 'Disponible' : 'Indisponible'}"></span>
+                                        </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Compétences:</div>
                                     <div class="col-lg-9 col-md-8">
                                         <ul>

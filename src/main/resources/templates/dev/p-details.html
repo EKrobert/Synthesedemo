@@ -11,9 +11,8 @@
 <div th:replace="~{master/sidebar:: sidebar}"></div>
 
 <main id="main" class="main">
-
     <div class="pagetitle">
-        <h1>Projet</h1>
+        <h1>Détails du projet</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -42,6 +41,33 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Affichage des étoiles avec la vérification de l'évaluation -->
+                    <div th:if="${evaluation != null}" class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="profile-tab">
+                        <span>Votre note (<span th:text="${evaluation.score}"></span>/5) :
+                            <span>
+                                <!-- Afficher les étoiles pleines avec la couleur dorée -->
+                                <span th:utext="${'&#9733;'.repeat(evaluation.score)}" style="color: gold;"></span>
+                                                    <!-- Afficher les étoiles vides avec la couleur grise -->
+                                <span th:utext="${'&#9734;'.repeat(5 - evaluation.score)}" style="color: lightgray;"></span>
+                            </span>
+                        </span>
+                        <br>
+                        <br>
+                        <span>Commentaire :
+                            <!-- Si evaluation.texte est nul, afficher un texte par défaut -->
+                            <span th:text="${evaluation.texte != null ? evaluation.texte : 'Aucun commentaire'}"></span>
+                        </span>
+                    </div>
+
+                    <!-- Si evaluation est nul, afficher un message alternatif -->
+                    <div th:if="${evaluation == null}">
+                        <p>Aucune évaluation disponible pour ce projet.</p>
+                    </div>
+
+
+
+
 
                 </div><!-- End Pills Tabs -->
             </div>

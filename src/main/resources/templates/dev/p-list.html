@@ -13,7 +13,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Projet</h1>
+        <h1>Projets Assignés</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -33,9 +33,8 @@
                     <tr th:each="p : ${projets}">
                         <td class="text-center" th:text="${p.titre}"></td>
                         <td class="text-center" th:text="${p.createdBy.name} + ' ' + ${p.createdBy.prenom}"></td>
-                        <td class="text-center"> </td>
                         <td class="text-center">
-                            <a  class="btn btn-primary btn-sm">Détails</a>
+                            <a th:href="@{/dev/projects/details/(id=${p.id})}" class="btn btn-primary btn-sm">Détails</a>
                         </td>
                     </tr>
                     </tbody>

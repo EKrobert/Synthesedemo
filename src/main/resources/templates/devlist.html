@@ -35,11 +35,11 @@
                         <td class="text-center" th:text="${us.name}"></td>
                         <td class="text-center" th:text="${us.prenom}"></td>
                         <td class="text-center">
-            <span th:classappend="${us.isDisponible() ? 'badge border-success border-1 text-success' : 'badge border-warning border-1 text-warning'}"
-                  th:text="${us.isDisponible() ? 'Disponible' : 'Indisponible'}"></span>
+                     <span th:classappend="${us.isDisponible() ? 'badge border-success border-1 text-success' : 'badge border-warning border-1 text-warning'}"
+                         th:text="${us.isDisponible() ? 'Disponible' : 'Indisponible'}"></span>
                         </td>
                         <td class="text-center">
-                            <a  th:href="@{/devdetails/(id=${us.id})}" class="btn btn-primary btn-sm">Détails</a>
+                            <a th:href="@{/chef/dev-details/(id=${us.id})}" class="btn btn-primary btn-sm">Détails</a>
                         </td>
                     </tr>
                     </tbody>
