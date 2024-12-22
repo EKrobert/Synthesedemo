@@ -58,7 +58,7 @@ public class ProjectController {
         if (loggedInUser == null) {
             return "redirect:/login";
         }
-        List<Projets> projets = projetService.findAll();
+        List<Projets> projets = projetService.findAllByCreatedBy(loggedInUser);
         model.addAttribute("projets", projets);
         model.addAttribute("user", loggedInUser);
         return "/projects/index";
@@ -140,9 +140,7 @@ public class ProjectController {
             return "redirect:/login";
         }
         model.addAttribute("user", loggedInUser);
-        List<Projets> projects = projetService.findAll();
-       // List<Users> users = userService.findAll();
-
+        List<Projets> projects = projetService.findAllByCreatedBy(loggedInUser);
 
         List<Users> users = userService.findAll().stream()
                 .filter(user -> user.getRole() == 0) // Inclure uniquement les développeurs (rôle 0)

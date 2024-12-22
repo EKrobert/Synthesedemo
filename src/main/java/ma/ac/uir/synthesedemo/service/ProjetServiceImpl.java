@@ -2,6 +2,7 @@ package ma.ac.uir.synthesedemo.service;
 
 import ma.ac.uir.synthesedemo.dao.ProjetRepository;
 import ma.ac.uir.synthesedemo.entity.Projets;
+import ma.ac.uir.synthesedemo.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,11 @@ public class ProjetServiceImpl implements ProjetService {
     @Override
     public void deleteById(Long theId) {
         projetRepository.deleteById(theId);
+    }
+
+    @Override
+    public List<Projets> findAllByCreatedBy(Users createdBy) {
+        return projetRepository.findAllByCreatedBy(createdBy);
     }
 
 

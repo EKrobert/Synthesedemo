@@ -75,17 +75,8 @@ public class DeveloppeurController {
             return "redirect:/login";
         }
 
-
-        // Recharger l'utilisateur depuis la base de données
-        Users reloadedUser = userService.findById((int) loggedInUser.getId());
-        // Récupérer les détails du projet par son ID
         Projets projet = projetService.findById(id);
         Evaluation evaluation = evaluationRepository.findByUserIdAndProjectId(idUser, id);
-        //Evaluation evaluation = evaluationService.findByUserIdAndProjectIdEvaluation(loggedInUser.getId(),id);
-        if (projet == null) {
-            return "redirect:/projects"; // Rediriger si le projet n'existe pas
-        }
-        //System.out.println("Evaluation: "+evaluation+" User: "+reloadedUser.getId()+"Projet: "+projet.getId() + "IdUsser: " +idUser);
         model.addAttribute("projet", projet);
         model.addAttribute("user", loggedInUser);
         model.addAttribute("evaluation", evaluation);
