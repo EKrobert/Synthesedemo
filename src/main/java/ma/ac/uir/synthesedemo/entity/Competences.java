@@ -10,17 +10,13 @@ public class Competences {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @Column(name = "nom")
     private String competence;
-
     @ManyToMany(mappedBy = "competences")
     private Set<Users> users;
-
     // Relation Many-to-Many avec l'entité Projets
     @ManyToMany(mappedBy = "competences") // mappedBy indique que la relation est gérée par l'entité Projets
     private Set<Projets> projets;
-
     public Competences() {}
 
     public Competences(String competence) {

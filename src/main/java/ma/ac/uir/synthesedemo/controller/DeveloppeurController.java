@@ -1,6 +1,7 @@
 package ma.ac.uir.synthesedemo.controller;
 
 import jakarta.servlet.http.HttpSession;
+import ma.ac.uir.synthesedemo.dao.EvaluationRepository;
 import ma.ac.uir.synthesedemo.entity.Evaluation;
 import ma.ac.uir.synthesedemo.entity.Projets;
 import ma.ac.uir.synthesedemo.entity.Users;
@@ -25,8 +26,9 @@ import java.util.Set;
 public class DeveloppeurController {
 
     private final ProjetService projetService;
-    @Autowired
+
     private final EvaluationService evaluationService;
+    private final EvaluationRepository evaluationRepository;
 
     @ModelAttribute("loggedInUser")
     public Users addLoggedInUserToModel(HttpSession session) {
@@ -41,11 +43,12 @@ public class DeveloppeurController {
     private CompetenceService competenceService;
 
     @Autowired
-    public DeveloppeurController(CompetenceService competenceService, UserService userService, ProjetService projetService, EvaluationService evaluationService) {
+    public DeveloppeurController(CompetenceService competenceService, UserService userService, ProjetService projetService, EvaluationService evaluationService, EvaluationRepository evaluationRepository) {
         this.competenceService = competenceService;
         this.userService = userService;
         this.projetService = projetService;
         this.evaluationService = evaluationService;
+        this.evaluationRepository = evaluationRepository;
     }
 
     @GetMapping("/projects/list")
@@ -65,24 +68,27 @@ public class DeveloppeurController {
 
     @GetMapping("/projects/details/")
     public String details(@RequestParam("id") Long id,
+                          @RequestParam("idUser") Long idUser,
                           @ModelAttribute("loggedInUser") Users loggedInUser,
                           Model model) {
         if (loggedInUser == null) {
             return "redirect:/login";
         }
 
+
+        // Recharger l'utilisateur depuis la base de données
+        Users reloadedUser = userService.findById((int) loggedInUser.getId());
         // Récupérer les détails du projet par son ID
         Projets projet = projetService.findById(id);
-        Users users = loggedInUser;
-        Evaluation evaluation = null;
-        evaluation = evaluationService.findByUserIdAndProjectId(users.getId(),id);
+        Evaluation evaluation = evaluationRepository.findByUserIdAndProjectId(idUser, id);
+        //Evaluation evaluation = evaluationService.findByUserIdAndProjectIdEvaluation(loggedInUser.getId(),id);
         if (projet == null) {
             return "redirect:/projects"; // Rediriger si le projet n'existe pas
         }
+        //System.out.println("Evaluation: "+evaluation+" User: "+reloadedUser.getId()+"Projet: "+projet.getId() + "IdUsser: " +idUser);
         model.addAttribute("projet", projet);
         model.addAttribute("user", loggedInUser);
         model.addAttribute("evaluation", evaluation);
-
         return "dev/p-details";
     }
 

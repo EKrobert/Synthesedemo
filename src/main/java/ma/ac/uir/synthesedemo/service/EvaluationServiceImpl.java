@@ -37,7 +37,7 @@ class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public Evaluation findByUserIdAndProjectId(Long userId, Long projectId) {
-        return repo.findByUserIdAndProjectId(userId,projectId);
+        return repo.findByUserIdAndProjectId(userId, projectId);
     }
 
 
